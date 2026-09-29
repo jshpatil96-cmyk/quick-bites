@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Quick Bites</title>
+<meta name="theme-color" content="#c8321f">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Quick Bites">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Crect width=%27100%27 height=%27100%27 rx=%2722%27 fill=%27%23c8321f%27/%3E%3Ctext x=%2750%27 y=%2770%27 font-size=%2760%27 text-anchor=%27middle%27%3E%F0%9F%A5%AA%3C/text%3E%3C/svg%3E">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#fdf1f0;--card:#fff;--ink:#2a1513;--mute:#7a5f5c;--line:#f0cfcb;--acc:#c8321f;--accink:#fff;--red:#c8321f;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1a1211;--card:#251918;--ink:#fbeeed;--mute:#c4a4a0;--line:#432b28;--acc:#d9432e;--red:#ff8272}}
+:root[data-theme="dark"]{--bg:#1a1211;--card:#251918;--ink:#fbeeed;--mute:#c4a4a0;--line:#432b28;--acc:#d9432e;--red:#ff8272}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:500 16px/1.4 "Bricolage Grotesque",system-ui,-apple-system,"Segoe UI",sans-serif}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer}
+button:focus-visible,input:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+header{background:var(--acc);color:var(--accink);padding:14px 16px 0}
+h1{margin:0;font-weight:800;font-size:28px;letter-spacing:-.02em}
+nav{display:flex;gap:4px;margin-top:10px}
+nav button{flex:1;border:0;background:transparent;padding:10px 2px;font-size:15px;font-weight:700;color:var(--accink);opacity:.65;border-bottom:4px solid transparent}
+nav button[aria-selected=true]{opacity:1;border-bottom-color:var(--accink)}
+main{max-width:1000px;margin:0 auto;padding:14px}
+.bill{display:grid;gap:14px;grid-template-columns:1fr}
+@media(min-width:800px){.bill{grid-template-columns:1.5fr 1fr;align-items:start}}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
+.item{background:var(--card);border:2px solid var(--line);border-radius:10px;padding:12px;text-align:left;min-height:82px;display:flex;flex-direction:column;justify-content:space-between}
+.item:active{transform:scale(.97)}
+.item b{font-size:16px}
+.item span{color:var(--mute)}
+.panel{background:var(--card);border:2px solid var(--line);border-radius:10px;padding:14px}
+.panel h2{margin:0 0 8px;font-size:18px}
+.row{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--line)}
+.row .n{flex:1}
+.qty{display:flex;align-items:center;gap:6px}
+.qty button{width:34px;height:34px;border-radius:8px;border:2px solid var(--line);background:var(--bg);font-weight:800}
+.total{display:flex;justify-content:space-between;font-size:26px;font-weight:800;padding:12px 0}
+.pay{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px}
+.pay button{padding:10px;border-radius:8px;border:2px solid var(--line);background:var(--bg);font-weight:700}
+.pay button[aria-pressed=true]{border-color:var(--ink);background:var(--acc);color:var(--accink)}
+.go{width:100%;padding:14px;border:0;border-radius:10px;background:var(--acc);color:#fff;font-weight:800;font-size:18px}
+.go:disabled{opacity:.4;cursor:not-allowed}
+.ghost{border:2px solid var(--line);background:transparent;border-radius:8px;padding:8px 12px;font-weight:700}
+.del{color:var(--red)}
+.empty{color:var(--mute);padding:10px 0}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}
+.stat{background:var(--card);border:2px solid var(--line);border-radius:10px;padding:12px}
+.stat small{color:var(--mute);display:block}
+.stat b{font-size:24px}
+.add{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+.add input{flex:1 1 140px;padding:10px;border:2px solid var(--line);border-radius:8px;background:var(--bg)}
+.add input[type=number]{flex:0 1 100px}
+.add .go{width:auto;padding:10px 18px;font-size:16px}
+.edit input{width:80px;padding:6px;border:2px solid var(--line);border-radius:8px;background:var(--bg)}
+details{border-bottom:1px solid var(--line);padding:8px 0}summary{cursor:pointer;font-weight:700;display:flex;justify-content:space-between;gap:8px}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:99px;font-weight:700;opacity:0;pointer-events:none;transition:opacity .2s}
+.toast.on{opacity:1}
+[hidden]{display:none!important}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<header>
+  <h1>Quick Bites</h1>
+  <nav role="tablist">
+    <button role="tab" data-t="bill" aria-selected="true">Billing</button>
+    <button role="tab" data-t="menu" aria-selected="false">Menu</button>
+    <button role="tab" data-t="sales" aria-selected="false">Today</button>
+    <button role="tab" data-t="reports" aria-selected="false">Reports</button>
+  </nav>
+</header>
+<main>
+  <section id="bill" class="bill">
+    <div><div class="grid" id="grid"></div></div>
+    <div class="panel">
+      <h2>Current order</h2>
+      <div id="cart"></div>
+      <div class="total"><span>Total</span><span id="tot">₹0</span></div>
+      <div class="pay" id="pay">
+        <button data-m="Cash" aria-pressed="true">Cash</button>
+        <button data-m="UPI" aria-pressed="false">UPI</button>
+      </div>
+      <button class="go" id="done" disabled>Save order</button>
+      <button class="ghost" id="clr" style="margin-top:8px;width:100%">Clear order</button>
+    </div>
+  </section>
+
+  <section id="menu" hidden>
+    <div class="panel">
+      <h2>Menu items</h2>
+      <div class="add">
+        <input id="nn" placeholder="Item name" aria-label="Item name">
+        <input id="np" type="number" min="0" placeholder="Price ₹" aria-label="Price in rupees">
+        <button class="go" id="addbtn">Add item</button>
+      </div>
+      <div id="list"></div>
+    </div>
+  </section>
+
+  <section id="sales" hidden>
+    <div class="stats">
+      <div class="stat"><small>Total sales</small><b id="s1">₹0</b></div>
+      <div class="stat"><small>Orders</small><b id="s2">0</b></div>
+      <div class="stat"><small>Cash / UPI</small><b id="s3">₹0 / ₹0</b></div>
+    </div>
+    <div class="panel">
+      <h2>Items sold</h2>
+      <div id="sold"></div>
+      <h2 style="margin-top:16px">Orders</h2>
+      <div id="orders"></div>
+      <button class="go" id="close" style="margin-top:14px">Close day &amp; save report</button>
+      <p class="empty">Sales keep adding up until you close the day, even after midnight.</p>
+    </div>
+  </section>
+<section id="reports" hidden>
+    <div class="panel">
+      <h2>Saved reports</h2>
+      <div id="rlist"></div>
+    </div>
+  </section>
+</main>
+<div class="toast" id="toast" role="status"></div>
+<script>
+(function(){
+  var K="quickbites.v1";
+  var def={menu:[{n:"Vada Pav",p:20},{n:"Samosa",p:15},{n:"Pav Bhaji",p:80},{n:"Masala Chai",p:10},{n:"Cold Coffee",p:50},{n:"Sandwich",p:60}],orders:[],reports:[]};
+  var S;
+  try{S=JSON.parse(localStorage.getItem(K))}catch(e){S=null}
+  if(!S||!S.menu){S=def}
+  S.orders=S.orders||[];S.reports=S.reports||[];
+  var cart={},method="Cash";
+  function save(){try{localStorage.setItem(K,JSON.stringify(S))}catch(e){}}
+  function $(i){return document.getElementById(i)}
+  function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+  function rs(n){return "₹"+Number(n).toLocaleString("en-IN")}
+  function toast(m){var t=$("toast");t.textContent=m;t.className="toast on";setTimeout(function(){t.className="toast"},1600)}
+
+  function renderGrid(){
+    $("grid").innerHTML=S.menu.length?S.menu.map(function(m,i){return '<button class="item" data-i="'+i+'"><b>'+esc(m.n)+'</b><span>'+rs(m.p)+'</span></button>'}).join(""):'<p class="empty">No items yet. Add some in the Menu tab.</p>';
+  }
+  function renderCart(){
+    var ids=Object.keys(cart).filter(function(i){return cart[i]>0&&S.menu[i]});
+    var t=0;
+    $("cart").innerHTML=ids.length?ids.map(function(i){var m=S.menu[i],q=cart[i];t+=m.p*q;return '<div class="row"><span class="n">'+esc(m.n)+'</span><span class="qty"><button data-d="-1" data-i="'+i+'" aria-label="Remove one '+esc(m.n)+'">−</button><b>'+q+'</b><button data-d="1" data-i="'+i+'" aria-label="Add one '+esc(m.n)+'">+</button></span><b style="min-width:64px;text-align:right">'+rs(m.p*q)+'</b></div>'}).join(""):'<p class="empty">Tap an item to start an order.</p>';
+    $("tot").textContent=rs(t);
+    $("done").disabled=!ids.length;
+  }
+  function renderMenu(){
+    $("list").innerHTML=S.menu.length?S.menu.map(function(m,i){return '<div class="row edit"><span class="n">'+esc(m.n)+'</span><input type="number" min="0" value="'+m.p+'" data-p="'+i+'" aria-label="Price for '+esc(m.n)+'"><button class="ghost del" data-x="'+i+'">Remove</button></div>'}).join(""):'<p class="empty">Your menu is empty. Add your first item above.</p>';
+  }
+  function renderSales(){
+    var tot=0,cash=0,upi=0,cnt={};
+    S.orders.forEach(function(o){tot+=o.total;if(o.pay==="UPI")upi+=o.total;else cash+=o.total;o.items.forEach(function(x){cnt[x.n]=(cnt[x.n]||0)+x.q})});
+    $("s1").textContent=rs(tot);$("s2").textContent=S.orders.length;$("s3").textContent=rs(cash)+" / "+rs(upi);
+    var k=Object.keys(cnt).sort(function(a,b){return cnt[b]-cnt[a]});
+    $("sold").innerHTML=k.length?k.map(function(n){return '<div class="row"><span class="n">'+esc(n)+'</span><b>× '+cnt[n]+'</b></div>'}).join(""):'<p class="empty">No sales yet.</p>';
+    $("orders").innerHTML=S.orders.length?S.orders.slice().reverse().map(function(o){return '<div class="row"><span class="n">#'+o.no+' · '+o.time+'<br><small style="color:var(--mute)">'+o.items.map(function(x){return esc(x.n)+' ×'+x.q}).join(", ")+'</small></span><span>'+o.pay+'</span><b>'+rs(o.total)+'</b></div>'}).join(""):'<p class="empty">Saved orders will show up here.</p>';
+  }
+
+  function fmt(t){return new Date(t).toLocaleString("en-IN",{day:"numeric",month:"short",hour:"2-digit",minute:"2-digit"})}
+  function renderReports(){
+    $("rlist").innerHTML=S.reports.length?S.reports.slice().reverse().map(function(r){
+      var it=Object.keys(r.items).map(function(n){return '<div class="row"><span class="n">'+esc(n)+'</span><b>× '+r.items[n]+'</b></div>'}).join("");
+      return '<details><summary><span>'+fmt(r.from)+' to '+fmt(r.to)+'</span><span>'+rs(r.total)+'</span></summary><div class="row"><span class="n">Orders</span><b>'+r.count+'</b></div><div class="row"><span class="n">Cash</span><b>'+rs(r.cash)+'</b></div><div class="row"><span class="n">UPI</span><b>'+rs(r.upi)+'</b></div>'+it+'<button class="ghost del" data-r="'+r.id+'" style="margin-top:8px">Delete report</button></details>'
+    }).join(""):'<p class="empty">No reports yet. Close a day in the Today tab to save one.</p>';
+  }
+  $("close").onclick=function(){
+    if(!S.orders.length){toast("No orders to save yet");return}
+    if(!confirm("Save today's report and start fresh?"))return;
+    var cash=0,upi=0,tot=0,cnt={};
+    S.orders.forEach(function(o){tot+=o.total;if(o.pay==="UPI")upi+=o.total;else cash+=o.total;o.items.forEach(function(x){cnt[x.n]=(cnt[x.n]||0)+x.q})});
+    S.reports.push({id:Date.now(),from:S.orders[0].at||Date.now(),to:Date.now(),total:tot,count:S.orders.length,cash:cash,upi:upi,items:cnt});
+    S.orders=[];save();renderSales();renderReports();toast("Report saved");
+  };
+  $("rlist").onclick=function(e){var b=e.target.closest("[data-r]");if(!b)return;if(confirm("Delete this report?")){S.reports=S.reports.filter(function(r){return String(r.id)!==b.dataset.r});save();renderReports()}};
+  $("grid").onclick=function(e){var b=e.target.closest("[data-i]");if(!b)return;var i=b.dataset.i;cart[i]=(cart[i]||0)+1;renderCart()};
+  $("cart").onclick=function(e){var b=e.target.closest("[data-d]");if(!b)return;var i=b.dataset.i;cart[i]=Math.max(0,(cart[i]||0)+Number(b.dataset.d));renderCart()};
+  $("pay").onclick=function(e){var b=e.target.closest("[data-m]");if(!b)return;method=b.dataset.m;[].forEach.call($("pay").children,function(c){c.setAttribute("aria-pressed",c===b)})};
+  $("clr").onclick=function(){cart={};renderCart()};
+  $("done").onclick=function(){
+    var items=[],t=0;
+    Object.keys(cart).forEach(function(i){var q=cart[i],m=S.menu[i];if(q>0&&m){items.push({n:m.n,q:q,p:m.p});t+=m.p*q}});
+    if(!items.length)return;
+    var no=S.orders.length?S.orders[S.orders.length-1].no+1:1;
+    S.orders.push({no:no,items:items,total:t,pay:method,time:new Date().toLocaleTimeString("en-IN",{hour:"2-digit",minute:"2-digit"}),at:Date.now()});
+    save();cart={};renderCart();renderSales();toast("Order #"+no+" saved · "+rs(t));
+  };
+  $("addbtn").onclick=function(){
+    var n=$("nn").value.trim(),p=Number($("np").value);
+    if(!n||!(p>=0)||$("np").value===""){toast("Enter a name and a price");return}
+    S.menu.push({n:n,p:p});save();$("nn").value="";$("np").value="";renderMenu();renderGrid();toast(n+" added");
+  };
+  $("list").onclick=function(e){var b=e.target.closest("[data-x]");if(!b)return;S.menu.splice(Number(b.dataset.x),1);cart={};save();renderMenu();renderGrid();renderCart()};
+  $("list").onchange=function(e){var i=e.target.dataset.p;if(i===undefined)return;var v=Number(e.target.value);if(v>=0){S.menu[i].p=v;save();renderGrid();renderCart()}};
+  document.querySelector("nav").onclick=function(e){
+    var b=e.target.closest("[data-t]");if(!b)return;
+    [].forEach.call(document.querySelectorAll("nav button"),function(x){x.setAttribute("aria-selected",x===b)});
+    ["bill","menu","sales","reports"].forEach(function(id){$(id).hidden=id!==b.dataset.t});
+    if(b.dataset.t==="sales")renderSales();if(b.dataset.t==="reports")renderReports();
+  };
+  renderGrid();renderCart();renderMenu();renderSales();renderReports();
+})();
+</script>
+<script>
+if("serviceWorker" in navigator){window.addEventListener("load",function(){try{navigator.serviceWorker.register("sw.js")}catch(e){}})}
+</script>
+</body>
+</html>
